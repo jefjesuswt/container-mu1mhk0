@@ -1,83 +1,134 @@
-# Go forth and build! 🚀
+# Dicasa Backend
 
-## Tutorial: How to make your first commit 📹:
+Backend de Dicasa, un sistema para la gestión de propiedades inmobiliarias. Construido con [NestJS](https://nestjs.com/), un framework progresivo de Node.js para construir aplicaciones eficientes y escalables del lado del servidor.
 
-This video example shows how to:
+## Descripción
 
-- Edit your container code
-- Raise a new pull request
-- Deploy the newest version automatically 🚀
+Este proyecto proporciona la API REST para la aplicación Dicasa. Gestiona usuarios, autenticación, propiedades y almacenamiento de archivos.
 
-https://user-images.githubusercontent.com/1718624/216366290-9bcac918-8605-4cf5-a98a-75bb8f722966.mp4
+## Características
 
+- **Autenticación de usuarios:** Registro, inicio de sesión y gestión de sesiones con JWT.
+- **Gestión de usuarios:** Creación, actualización y eliminación de usuarios.
+- **Gestión de propiedades:** Creación, actualización y eliminación de propiedades.
+- **Almacenamiento de archivos:** Sube y gestiona archivos en Cloudflare R2.
+- **Envío de correos electrónicos:** Envía correos electrónicos para confirmación de cuenta y restablecimiento de contraseña.
 
+## Prerrequisitos
 
-By now, you have deployed a container, and in moments, you can visit your app
-live!
+- [Bun](https://bun.sh/)
 
-> Be patient! In ~3 mins your app is live, at your [app url](https://container-mu1mhk0.containers.anotherwebservice.com/). It even has a free SSL/TLS certificate 🔒 you're welcome!
+## Instalación
 
-You probably want to add code to your app. Good news, your app is ready right now to start coding, which is simple:
+1. Clona el repositorio:
 
-1. Edit your code
-2. Commit your code
-3. Push your code `git push origin main`
+   ```bash
+   git clone https://github.com/tu-usuario/dicasa-backend.git
+   cd dicasa-backend
+   ```
 
-Your app will be automatically re-deployed with the latest code at: https://container-mu1mhk0.containers.anotherwebservice.com/
+2. Instala las dependencias con Bun:
 
-> You app is deployed already and is working software. Gone are the days of spending weeks coding and then *another* week going to production. No. Go to production *early* and respond to change.
+   ```bash
+   bun install
+   ```
 
-# Getting Started 💻 (locally on your laptop)
+## Variables de Entorno
 
-> Step 0: You need to download your repo to your computer:
+Crea un archivo `.env` en la raíz del proyecto y añade las siguientes variables de entorno. Puedes usar el archivo `.env.template` como guía.
+
+```bash
+DATABASE_URI=
+R2_PUBLIC_URL=
+CLOUDFLARE_ACCOUNT_ID=
+CLOUDFLARE_ACCESS_KEY_ID=
+CLOUDFLARE_SECRET_ACCESS_KEY=
+R2_BUCKET_NAME=
+JWT_ACCESS_SECRET=
+JWT_ACCESS_EXPIRATION=
+JWT_CONFIRM_SECRET=
+JWT_CONFIRM_EXPIRATION=
+MAIL_HOST=
+MAIL_USER=
+MAIL_PASS=
+MAIL_PORT=
+API_URL=
+FRONTEND_URL=
+```
+
+## Ejecutando la Aplicación
+
+### Desarrollo
+
+```bash
+bun run start
+```
+
+### Modo Observador (Watch Mode)
+
+```bash
+bun run start:dev
+```
+
+### Producción
+
+```bash
+bun run start:prod
+```
+
+## Ejecutando con Docker
+
+1. Construye la imagen de Docker:
+
+   ```bash
+   docker build -t dicasa-backend .
+   ```
+
+2. Ejecuta el contenedor:
+
+   ```bash
+   docker run -p 3000:3000 --env-file .env dicasa-backend
+   ```
+
+## Pruebas
+
+### Pruebas Unitarias
+
+```bash
+bun run test
+```
+
+### Pruebas End-to-End (e2e)
+
+```bash
+bun run test:e2e
+```
+
+### Cobertura de Pruebas
+
+```bash
+bun run test:cov
+```
+
+## Estructura del Proyecto
+
+El proyecto sigue la estructura estándar de una aplicación NestJS:
 
 ```
-git clone git@github.com:jefjesuswt/container-mu1mhk0.git
-cd container-mu1mhk0
+src
+├── app.module.ts
+├── main.ts
+├── auth
+├── mail
+├── properties
+├── storage
+└── users
 ```
 
-> See an error? You might need to setup permissions [here's a guide how to setup repo clone permissions](https://docs.github.com/en/authentication/connecting-to-github-with-ssh/adding-a-new-ssh-key-to-your-github-account)
-
-1. [Install docker](https://docs.docker.com/get-docker/)
-
-2. Start your container locally: `docker-compose up`
-3. Visit your app locally: http://127.0.0.1:5000/
-
-## View your app locally
-
-Visit: http://127.0.0.1:5000/
-
-### Rebuild container (locally)
-If you make changes to `Dockerfile`, then you need to rebuild your container image. To rebuild the container image:
-```
-docker-compose build
-# or 
-docker-compose up --build
-```
-
-# Start coding! Which framework did you choose?
-
-Need some help to get started?
-
-- [**Flask** quickstart guide](https://flask.palletsprojects.com/en/2.2.x/quickstart/) ⚗️ 🐍
-- [**Django** quide](https://docs.djangoproject.com/en/4.1/topics/http/views/) 📰
-- [**Ruby** quickstart guide](https://github.com/KarmaComputing/rails-quickstart) 💎
-- [**Express** quickstart guide](https://expressjs.com/en/starter/hello-world.html) 🟢
-
-# Debugging
-
-How do I turn on the debugger?
-
-Enable a breakpoint by adding `breakpoint()` to your code, start your application and run to that point then in a terminal type:
-
-```
-docker attach container-mu1mhk0
-```
-Ta-da! You'll be inside the [Python debugger](https://docs.python.org/3/library/pdb.html#module-pdb) ( ⬅️ Read this!)
-
-
-
-## Questions
-
-- How was this built? [All code is here](https://github.com/KarmaComputing/container-hosting)
-- How can I use a customized port numberi/change the port number listened on? You don't need to do this if you use the quickstarts. But if you do want to alter the port: Edit your `Dockerfile` and change `EXPOSE` to the port number you want your app to listen on. Understand that all apps go through the proxy (nginx) listening on port `80` and `443`, requests to your app get proxied (based on your hostname) to the port number you put after `EXPOSE` in your your `Dockerfile`. For example `EXPOSE 3000` means you want the Dokku nginx proxy to forward port `80` and `443` connections to port `3000`. You still need to make your application listen on your chosen port.
+- `src/main.ts`: El punto de entrada de la aplicación.
+- `src/app.module.ts`: El módulo raíz de la aplicación.
+- `src/auth`: Módulo de autenticación.
+- `src/mail`: Módulo para el envío de correos.
+- `src/properties`: Módulo para la gestión de propiedades.
+- `src/storage`: Módulo para el almacenamiento de archivos.
+- `src/users`: Módulo para la gestión de usuarios.
